@@ -18,7 +18,7 @@ def analyze_logs():
     log_data = pd.read_csv('web_server_logs_updated.csv')
 
     # Ensure necessary columns are present
-    required_columns = ['Timestamp', 'IP', 'Request', 'Status', 'Age', 'Gender', 'Country', 'City', 'Sport', 'Count']
+    required_columns = ['Timestamp', 'IP', 'Request', 'Status', 'Age', 'Gender', 'Country', 'City', 'Sport','Count']
     if not all(column in log_data.columns for column in required_columns):
         raise ValueError("Missing required columns in the log data.")
 
@@ -42,6 +42,7 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.H1("PARIS METRICS 2024-Fun Olympic Games", className="text-left"), className="mb-5 mt-5")
     ]),
+    
     dbc.Row([
         dbc.Col(dcc.Graph(id='country-chart'), width=6),
         dbc.Col(dcc.Graph(id='sport-chart'), width=6)
@@ -53,6 +54,7 @@ app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(dcc.Graph(id='continent-chart'), width=6)
     ]),
+    
 ], fluid=True)
 
 # Define the callbacks for interactive charts
@@ -98,8 +100,9 @@ def update_charts(_):
                                      size="Count", color="Continent", hover_name="City",
                                      title='Geographic Distribution by Continent',
                                      projection='natural earth')
+    
 
-    return country_chart, sport_chart, gender_chart, age_chart, continent_chart
+    return country_chart, sport_chart, gender_chart, age_chart, continent_chart,
 
 # Define route to render index.html with Dash
 @server.route('/')
