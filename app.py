@@ -7,7 +7,7 @@ import pandas as pd
 import plotly.express as px
 
 # Initialize Flask app
-server = Flask(__name__)
+server = app.server
 
 # Initialize Dash app
 app = dash.Dash(__name__, server=server, url_base_pathname='/dashboard/', external_stylesheets=[dbc.themes.BOOTSTRAP])
