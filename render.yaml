@@ -4,3 +4,6 @@ services:
     env:python
     buildCommand: "pip install -r requirements.txt"
     startCommand:"gunicorn app:server"
+  git add render.yaml
+git commit -m "Add render.yaml for render deployment"
+git push origin main
