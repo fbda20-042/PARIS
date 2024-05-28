@@ -6,12 +6,11 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
 
-# Initialize Flask app
-server = Flask(__name__)
 
 # Initialize Dash app
 app = dash.Dash(__name__, server=server, url_base_pathname='/dashboard/', external_stylesheets=[dbc.themes.BOOTSTRAP])
-server =app.server
+app.title = "PARIS METRICS 2024-Fun Olympic Games"
+server=app.server
 
 # Function to read and analyze web server log data
 def analyze_logs():
@@ -19,7 +18,7 @@ def analyze_logs():
     log_data = pd.read_csv('web_server_logs_updated.csv')
 
     # Ensure necessary columns are present
-    required_columns = ['Timestamp', 'IP', 'Request', 'Status', 'Age', 'Gender', 'Country', 'City', 'Sport','Count']
+    required_columns = ['Timestamp', 'IP', 'Request', 'Status', 'Age', 'Gender', 'Country', 'City', 'Sport', 'Count']
     if not all(column in log_data.columns for column in required_columns):
         raise ValueError("Missing required columns in the log data.")
 
@@ -102,8 +101,7 @@ def update_charts(_):
                                      title='Geographic Distribution by Continent',
                                      projection='natural earth')
     
-
-    return country_chart, sport_chart, gender_chart, age_chart, continent_chart,
+    return country_chart, sport_chart, gender_chart, age_chart, continent_chart
 
 # Define route to render index.html with Dash
 @server.route('/')
@@ -113,10 +111,31 @@ def index():
         <html>
         <head>
             <title>PARIS METRICS 2024-Fun Olympic Games</title>
-            <link rel="stylesheet" href="style.css">
+            <style>
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+                h1 {
+                    text-align: center;
+                    margin-top: 50px;
+                    margin-bottom: 50px;
+                }
+                #dash-container {
+                    margin-top: 20px;
+                }
+                .logo {
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: 100px;
+                    height: auto;
+                }
+            </style>
         </head>
         <body>
             <div class="container">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
                 <h1 class="text-center mt-5 mb-5">PARIS METRICS 2024-Fun Olympic Games</h1>
                 <div id="dash-container"></div>
             </div>
